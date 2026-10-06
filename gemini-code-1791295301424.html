@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PERSAKMI Kab. Bantaeng</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-40 glass-header border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+                <div id="headerLogoContainer" class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-brand-600/20 overflow-hidden border border-brand-500/30">
+                    <span id="headerLogoText">P</span>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-slate-900 leading-tight text-base sm:text-lg tracking-tight">PERSAKMI Kab. Bantaeng</h1>
+                    <p class="text-xs text-slate-500 font-medium">Perhimpunan Sarjana & Profesional Kesehatan Masyarakat</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60">
+                <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-slate-600 hover:text-brand-600">Tentang</button>
+                <button onclick="switchTab('berita')" id="nav-berita" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-slate-600 hover:text-brand-600">Berita/Artikel</button>
+                <button onclick="switchTab('dokumentasi')" id="nav-dokumentasi" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-slate-600 hover:text-brand-600">Dokumentasi</button>
+                <button onclick="switchTab('kta')" id="nav-kta" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition text-slate-600 hover:text-brand-600">Review KTA</button>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <div id="adminStatusArea">
+                    <button onclick="openLoginModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-xs"></i> Login Admin
+                    </button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 hover:text-slate-900 p-2 rounded-xl bg-slate-100">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Nav Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-4 space-y-2">
+            <button onclick="switchTab('tentang'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600">Tentang</button>
+            <button onclick="switchTab('berita'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600">Berita/Artikel</button>
+            <button onclick="switchTab('dokumentasi'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600">Dokumentasi</button>
+            <button onclick="switchTab('kta'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600">Review KTA</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Hero Banner / Sampul -->
+        <div id="heroBanner" class="rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col justify-between transition-all duration-500" style="background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%);">
+            <div class="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-2xl relative z-10 space-y-4">
+                <span class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md text-emerald-100 text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/20 shadow-sm">
+                    <i class="fa-solid fa-award"></i> Portal Resmi Pengurus Daerah
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">PERSAKMI Kabupaten Bantaeng</h1>
+                <p class="text-slate-100 text-sm sm:text-base leading-relaxed font-light">Wadah integrasi, pengembangan profesi, dan layanan keanggotaan Sarjana Kesehatan Masyarakat di Wilayah Kabupaten Bantaeng.</p>
+                <div class="flex flex-wrap gap-3.5 pt-2">
+                    <a href="https://script.google.com/macros/s/AKfycby85rsQ6DX2XCPJdRoVEgY2u1lIiX7xP1fl9p1zbg9E5UI3Hk8n_6D1gbAwTGF_kylv/exec" target="_blank" class="bg-white text-brand-800 hover:bg-emerald-50 text-sm font-bold px-6 py-3 rounded-2xl shadow-xl shadow-emerald-950/20 transition flex items-center gap-2.5">
+                        <i class="fa-solid fa-id-card text-brand-600 text-base"></i> Ajukan KTA Baru <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-0.5"></i>
+                    </a>
+                    <button onclick="switchTab('kta')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 text-sm font-semibold px-5 py-3 rounded-2xl transition flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Cek Status KTA
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: TENTANG & KEPENGURUSAN -->
+        <section id="tab-tentang" class="tab-content space-y-8">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-circle-info"></i></span>
+                            Tentang PERSAKMI Bantaeng
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">Profil organisasi dan komitmen pengabdian kesehatan masyarakat.</p>
+                    </div>
+                    <div id="adminTentangBtn" class="hidden">
+                        <button onclick="openEditTentangModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit Profil Organisasi
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-200/60 hover:border-brand-300 transition">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center mb-4 shadow-md shadow-brand-600/20 text-lg">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Visi Organisasi</h3>
+                        <p id="txtVisi" class="text-sm text-slate-600 leading-relaxed">Menjadi organisasi profesi kesehatan masyarakat yang profesional, berintegritas, dan terdepan dalam mewujudkan masyarakat Bantaeng yang sehat mandiri.</p>
+                    </div>
+                    <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-200/60 hover:border-brand-300 transition">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center mb-4 shadow-md shadow-brand-600/20 text-lg">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Misi Utama</h3>
+                        <p id="txtMisi" class="text-sm text-slate-600 leading-relaxed">Meningkatkan kompetensi anggota, memperkuat kolaborasi lintas sektor, serta aktif mengawal program promotif dan preventif kesehatan di Kabupaten Bantaeng.</p>
+                    </div>
+                    <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-200/60 hover:border-brand-300 transition">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center mb-4 shadow-md shadow-brand-600/20 text-lg">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Ruang Lingkup</h3>
+                        <p id="txtRuang" class="text-sm text-slate-600 leading-relaxed">Menghimpun seluruh Sarjana Kesehatan Masyarakat (SKM) di instansi pemerintahan, puskesmas, rumah sakit, maupun sektor swasta se-Kabupaten Bantaeng.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Susunan Kepengurusan Inti -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-sitemap"></i></span>
+                            Susunan Kepengurusan Inti
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">Pengurus inti PERSAKMI Kabupaten Bantaeng periode aktif.</p>
+                    </div>
+                    <div id="adminPengurusBtn" class="hidden">
+                        <button onclick="openAddPengurusModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> Tambah Pengurus
+                        </button>
+                    </div>
+                </div>
+
+                <div id="pengurusGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <!-- Dinamis via Javascript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: BERITA / ARTIKEL & KEGIATAN -->
+        <section id="tab-berita" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-newspaper"></i></span>
+                        Berita, Artikel & Kegiatan
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Informasi terkini kegiatan dan pengumuman PERSAKMI Bantaeng.</p>
+                </div>
+                <div id="adminBeritaBtn" class="hidden">
+                    <button onclick="openAddBeritaModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Berita / Kegiatan
+                    </button>
+                </div>
+            </div>
+
+            <!-- List Berita -->
+            <div id="beritaGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Dinamis via Javascript -->
+            </div>
+        </section>
+
+        <!-- TAB 3: DOKUMENTASI -->
+        <section id="tab-dokumentasi" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-images"></i></span>
+                        Dokumentasi Kegiatan
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Galeri foto dan dokumentasi kegiatan organisasi.</p>
+                </div>
+                <div id="adminDokumentasiBtn" class="hidden">
+                    <button onclick="openAddDokumentasiModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-upload"></i> Upload Dokumentasi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Dokumentasi -->
+            <div id="dokumentasiGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Dinamis via Javascript -->
+            </div>
+        </section>
+
+        <!-- TAB 4: REVIEW KTA PERSAKMI -->
+        <section id="tab-kta" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-lg"><i class="fa-solid fa-id-card"></i></span>
+                        Review KTA Anggota
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Data pengajuan Kartu Tanda Anggota (KTA) PERSAKMI Kab. Bantaeng terkoneksi langsung dengan Google Sheets.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="https://script.google.com/macros/s/AKfycby85rsQ6DX2XCPJdRoVEgY2u1lIiX7xP1fl9p1zbg9E5UI3Hk8n_6D1gbAwTGF_kylv/exec" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Ajukan KTA Baru <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                    <button onclick="loadKtaData()" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate"></i> Muat Ulang Live
+                    </button>
+                </div>
+            </div>
+
+            <!-- KTA Stats Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengajuan</p>
+                        <h4 class="text-2xl font-extrabold text-slate-900 mt-1" id="statTotalKta">0</h4>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">On Proses / Validasi</p>
+                        <h4 class="text-2xl font-extrabold text-amber-600 mt-1" id="statProsesKta">0</h4>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Instansi Terdaftar</p>
+                        <h4 class="text-2xl font-extrabold text-emerald-600 mt-1" id="statInstansiKta">0</h4>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-hospital"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter & Search Box -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <div class="relative w-full sm:w-80">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <input type="text" id="ktaSearchInput" onkeyup="filterKtaTable()" placeholder="Cari nama, gelar, atau instansi..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div class="w-full sm:w-auto flex items-center gap-2">
+                    <select id="ktaStatusFilter" onchange="filterKtaTable()" class="w-full sm:w-auto px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium">
+                        <option value="">Semua Status</option>
+                        <option value="on proses">On Proses</option>
+                        <option value="menunggu">Menunggu Proses Validasi</option>
+                        <option value="disetujui">Disetujui</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" id="ktaTable">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Timestamp</th>
+                                <th class="py-3.5 px-4">Nama Lengkap & Gelar</th>
+                                <th class="py-3.5 px-4">L/P</th>
+                                <th class="py-3.5 px-4">Lokasi Bekerja</th>
+                                <th class="py-3.5 px-4">Provinsi</th>
+                                <th class="py-3.5 px-4">Status Pengajuan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ktaTableBody" class="divide-y divide-slate-100 text-sm text-slate-700">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-slate-400">
+                                    <i class="fa-solid fa-spinner fa-spin mr-2"></i> Memuat data KTA secara live...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500 flex flex-col items-center gap-2">
+        <p>&copy; 2026 PERSAKMI Kabupaten Bantaeng. Seluruh Hak Cipta Dilindungi.</p>
+        <div id="adminFooterSettings" class="hidden">
+            <button onclick="openSettingsModal()" class="text-xs text-brand-600 font-bold hover:underline flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                <i class="fa-solid fa-gear"></i> Pengaturan Logo & Sampul Website
+            </button>
+        </div>
+    </footer>
+
+    <!-- MODAL: LOGIN ADMIN -->
+    <div id="loginModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-brand-600"></i> Login Admin
+                </h3>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-sm text-slate-500">Masukkan username dan password admin untuk mengelola konten website.</p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Username</label>
+                    <input type="text" id="adminUser" placeholder="Username admin" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Password</label>
+                    <input type="password" id="adminPass" placeholder="Password admin" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <p id="loginError" class="text-xs text-rose-600 hidden font-medium">Username atau password salah!</p>
+                <button onclick="processLogin()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">
+                    Masuk sebagai Admin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PENGATURAN LOGO & SAMPUL -->
+    <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900"><i class="fa-solid fa-image text-brand-600 mr-2"></i> Pengaturan Tampilan</h3>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Logo Baru (Gambar)</label>
+                    <input type="text" id="inputLogoUrl" placeholder="https://..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Gambar Sampul / Banner (Hero)</label>
+                    <input type="text" id="inputCoverUrl" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <button onclick="saveSettings()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT TENTANG -->
+    <div id="editTentangModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">Edit Profil Organisasi</h3>
+                <button onclick="closeEditTentangModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Visi Organisasi</label>
+                    <textarea id="editVisi" rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Misi Utama</label>
+                    <textarea id="editMisi" rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Ruang Lingkup</label>
+                    <textarea id="editRuang" rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
+                </div>
+                <button onclick="saveTentang()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: TAMBAH / EDIT KEPENGURUSAN -->
+    <div id="pengurusModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 id="pengurusModalTitle" class="text-lg font-bold text-slate-900">Tambah Pengurus Inti</h3>
+                <button onclick="closeAddPengurusModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <input type="hidden" id="pengurusEditId">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Nama Lengkap & Gelar</label>
+                    <input type="text" id="pengurusNama" placeholder="Nama lengkap..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Jabatan</label>
+                    <input type="text" id="pengurusJabatan" placeholder="Contoh: Ketua Cabang..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Foto Profil</label>
+                    <input type="text" id="pengurusFoto" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <button onclick="savePengurus()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">Simpan Pengurus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: TAMBAH / EDIT BERITA & KEGIATAN -->
+    <div id="beritaModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 id="beritaModalTitle" class="text-lg font-bold text-slate-900">Tambah Berita / Kegiatan</h3>
+                <button onclick="closeAddBeritaModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <input type="hidden" id="beritaEditId">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Judul Berita / Kegiatan</label>
+                    <input type="text" id="beritaTitle" placeholder="Judul kegiatan..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Gambar / Foto</label>
+                    <input type="text" id="beritaImage" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Sematkan / Tempel Link (Opsional)</label>
+                    <input type="text" id="beritaLink" placeholder="https://... atau link terkait" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Isi Berita / Keterangan</label>
+                    <textarea id="beritaContent" rows="3" placeholder="Tulis ringkasan berita..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
+                </div>
+                <button onclick="saveBerita()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">Simpan Berita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: TAMBAH DOKUMENTASI -->
+    <div id="dokumentasiModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">Upload Dokumentasi</h3>
+                <button onclick="closeAddDokumentasiModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Judul Foto / Kegiatan</label>
+                    <input type="text" id="dokTitle" placeholder="Contoh: Vaksinasi Massal..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Foto</label>
+                    <input type="text" id="dokImage" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Sematkan / Tempel Link (Opsional)</label>
+                    <input type="text" id="dokLink" placeholder="https://..." class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </div>
+                <button onclick="saveDokumentasi()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 rounded-xl shadow transition text-sm">Upload Foto</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store (LocalStorage)
+        let isAdmin = false;
+        
+        let currentLogo = localStorage.getItem('persakmi_logo') || '';
+        let currentCover = localStorage.getItem('persakmi_cover') || '';
+
+        // Helper: Format image URL (handles standard links & converts Google Drive share links automatically)
+        function formatImageUrl(url) {
+            if (!url) return '';
+            url = url.trim();
+            if (url.includes('drive.google.com')) {
+                let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            }
+            return url;
+        }
+
+        let tentangData = JSON.parse(localStorage.getItem('persakmi_tentang')) || {
+            visi: 'Menjadi organisasi profesi kesehatan masyarakat yang profesional, berintegritas, dan terdepan dalam mewujudkan masyarakat Bantaeng yang sehat mandiri.',
+            misi: 'Meningkatkan kompetensi anggota, memperkuat kolaborasi lintas sektor, serta aktif mengawal program promotif dan preventif kesehatan di Kabupaten Bantaeng.',
+            ruang: 'Menghimpun seluruh Sarjana Kesehatan Masyarakat (SKM) di instansi pemerintahan, puskesmas, rumah sakit, maupun sektor swasta se-Kabupaten Bantaeng.'
+        };
+
+        let pengurusList = JSON.parse(localStorage.getItem('persakmi_pengurus')) || [
+            { id: 1, nama: 'Dr. H. Ahmad S.KM., M.Kes', jabatan: 'Ketua Cabang', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80' },
+            { id: 2, nama: 'Nurul Hidayah, S.KM', jabatan: 'Sekretaris', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80' },
+            { id: 3, nama: 'Fajar Ramadhan, S.KM., M.Epid', jabatan: 'Bendahara', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80' },
+            { id: 4, nama: 'Sitti Rahma, S.KM', jabatan: 'Bidang Pengembangan Profesi', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80' }
+        ];
+
+        let beritaList = JSON.parse(localStorage.getItem('persakmi_berita')) || [
+            { id: 1, title: 'Rakor Kesehatan Masyarakat & Imunisasi Anak Bantaeng', date: '06 Okt 2026', image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80', content: 'Pengurus PERSAKMI Bantaeng mengadakan rapat koordinasi percepatan cakupan imunisasi dan pendataan tenaga kesehatan.', link: '' },
+            { id: 2, title: 'Sosialisasi KTA Online bagi Anggota Baru', date: '01 Okt 2026', image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=600&q=80', content: 'Layanan pendaftaran Kartu Tanda Anggota PERSAKMI kini terintegrasi secara digital untuk memudahkan verifikasi profesi.', link: 'https://script.google.com/macros/s/AKfycby85rsQ6DX2XCPJdRoVEgY2u1lIiX7xP1fl9p1zbg9E5UI3Hk8n_6D1gbAwTGF_kylv/exec' }
+        ];
+
+        let dokumentasiList = JSON.parse(localStorage.getItem('persakmi_dok')) || [
+            { id: 1, title: 'Bakti Sosial Kesehatan', image: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80', link: '' },
+            { id: 2, title: 'Pelatihan Perekam Medis', image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80', link: '' },
+            { id: 3, title: 'Rapat Kerja Daerah', image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80', link: '' }
+        ];
+
+        let rawKtaData = [];
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('bg-brand-600', 'text-white', 'shadow-md'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.add('text-slate-600'));
+            
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-600');
+                activeNav.classList.add('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-600/20');
+            }
+
+            if (tabId === 'kta' && rawKtaData.length === 0) {
+                loadKtaData();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize UI Content
+        function initContent() {
+            // Logo Display Fix
+            const logoContainer = document.getElementById('headerLogoContainer');
+            let formattedLogo = formatImageUrl(currentLogo);
+            if (formattedLogo && formattedLogo.trim() !== '') {
+                logoContainer.innerHTML = `<img src="${formattedLogo}" alt="Logo" class="w-full h-full object-cover rounded-2xl" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-bold text-white text-xl\'>P</span>';">`;
+            } else {
+                logoContainer.innerHTML = `<span class="font-bold text-white text-xl">P</span>`;
+            }
+
+            // Cover Banner Display Fix
+            const heroBanner = document.getElementById('heroBanner');
+            let formattedCover = formatImageUrl(currentCover);
+            if (formattedCover && formattedCover.trim() !== '') {
+                heroBanner.style.background = `linear-gradient(135deg, rgba(6,78,59,0.92) 0%, rgba(4,120,87,0.85) 50%, rgba(5,150,105,0.8) 100%), url('${formattedCover}')`;
+                heroBanner.style.backgroundSize = 'cover';
+                heroBanner.style.backgroundPosition = 'center';
+            } else {
+                heroBanner.style.background = 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)';
+            }
+
+            // Tentang
+            document.getElementById('txtVisi').innerText = tentangData.visi;
+            document.getElementById('txtMisi').innerText = tentangData.misi;
+            document.getElementById('txtRuang').innerText = tentangData.ruang;
+
+            renderPengurus();
+            renderBerita();
+            renderDokumentasi();
+            switchTab('tentang');
+        }
+
+        // Render Pengurus
+        function renderPengurus() {
+            const container = document.getElementById('pengurusGrid');
+            container.innerHTML = '';
+            pengurusList.forEach(item => {
+                let name = item.nama || item.name;
+                let fotoUrl = formatImageUrl(item.foto);
+                container.innerHTML += `
+                    <div class="bg-slate-50 rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-md transition text-center p-6 flex flex-col items-center justify-between">
+                        <div>
+                            <img src="${fotoUrl}" alt="${name}" class="w-28 h-28 rounded-2xl object-cover mx-auto mb-4 shadow-md border-2 border-brand-500/30" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+                            <h4 class="font-bold text-slate-900 text-base">${name}</h4>
+                            <p class="text-xs font-bold text-brand-600 mt-1 uppercase tracking-wider">${item.jabatan}</p>
+                        </div>
+                        ${isAdmin ? `
+                            <div class="mt-5 flex gap-2 w-full justify-center border-t border-slate-200/60 pt-4">
+                                <button onclick="openEditPengurusModal(${item.id})" class="text-xs bg-amber-50 text-amber-700 px-3.5 py-2 rounded-xl font-semibold hover:bg-amber-100 transition"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
+                                <button onclick="deletePengurus(${item.id})" class="text-xs bg-rose-50 text-rose-600 px-3.5 py-2 rounded-xl font-semibold hover:bg-rose-100 transition"><i class="fa-solid fa-trash mr-1"></i> Hapus</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // Render Berita
+        function renderBerita() {
+            const container = document.getElementById('beritaGrid');
+            container.innerHTML = '';
+            beritaList.forEach(item => {
+                let imgUrl = formatImageUrl(item.image);
+                container.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                        <div>
+                            <img src="${imgUrl}" alt="${item.title}" class="w-full h-52 object-cover" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80'">
+                            <div class="p-6 space-y-3">
+                                <span class="text-xs font-bold text-brand-600 bg-brand-50 px-3 py-1 rounded-full"><i class="fa-regular fa-calendar mr-1"></i> ${item.date}</span>
+                                <h3 class="font-bold text-slate-900 text-lg leading-snug">${item.title}</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed">${item.content}</p>
+                                ${item.link ? `<div class="pt-2"><a href="${item.link}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 rounded-xl transition"><i class="fa-solid fa-link"></i> Buka Link Terkait <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></div>` : ''}
+                            </div>
+                        </div>
+                        ${isAdmin ? `
+                            <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2">
+                                <button onclick="openEditBeritaModal(${item.id})" class="text-xs bg-amber-50 text-amber-700 px-3.5 py-2 rounded-xl font-semibold hover:bg-amber-100 transition"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
+                                <button onclick="deleteBerita(${item.id})" class="text-xs bg-rose-50 text-rose-600 px-3.5 py-2 rounded-xl font-semibold hover:bg-rose-100 transition"><i class="fa-solid fa-trash mr-1"></i> Hapus</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // Render Dokumentasi
+        function renderDokumentasi() {
+            const container = document.getElementById('dokumentasiGrid');
+            container.innerHTML = '';
+            dokumentasiList.forEach(item => {
+                let imgUrl = formatImageUrl(item.image);
+                container.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-md transition group flex flex-col justify-between">
+                        <div>
+                            <div class="relative overflow-hidden h-56">
+                                <img src="${imgUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-5">
+                                    <h4 class="text-white font-bold text-base leading-snug">${item.title}</h4>
+                                </div>
+                            </div>
+                            ${item.link ? `<div class="p-5 pb-0"><a href="${item.link}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 rounded-xl transition"><i class="fa-solid fa-link"></i> Link Terkait <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></div>` : ''}
+                        </div>
+                        ${isAdmin ? `<div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end mt-4"><button onclick="deleteDokumentasi(${item.id})" class="text-xs bg-rose-50 text-rose-600 px-3.5 py-2 rounded-xl font-semibold hover:bg-rose-100 transition"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // Load KTA Data via CSV Export with Bulletproof Fallback
+        function loadKtaData() {
+            const tbody = document.getElementById('ktaTableBody');
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2 text-brand-600"></i> Mengambil data terbaru dari Google Sheets...</td></tr>`;
+
+            const sheetId = '1-wpiXlEmkhUaUaO8WKhXPHXG1oowl-rupWFBtuTmCCE';
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&t=${new Date().getTime()}`;
+
+            const fallbackData = [
+                { 'Timestamp': '30/09/2026 12:15:24', 'Nama Lengkap (Tanpa Gelar)': 'NORMA', 'Gelar Lengkap': 'SKM,MM', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'KABUPATEN BANTAENG', 'Provinsi Bekerja': 'SULAWESI SELATAN', 'Status Pengajuan': 'on proses' },
+                { 'Timestamp': '30/09/2026 13:39:39', 'Nama Lengkap (Tanpa Gelar)': 'FATIMA MARAMPA', 'Gelar Lengkap': 'SARJANA KESEHATAN MASYARAKAT', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'RSUD PROF DR H.M. ANWAR MAKKATUTU BANTAENG', 'Provinsi Bekerja': 'SULAWESI SELATAN', 'Status Pengajuan': 'on proses' },
+                { 'Timestamp': '30/09/2026 16:09:39', 'Nama Lengkap (Tanpa Gelar)': 'Ferawati Wulan Fajri', 'Gelar Lengkap': 'SKM, M.Tr. Adm. Kes', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'RSUD Prof. dr. H. M. Anwar Makkatutu Bantaeng', 'Provinsi Bekerja': 'Sulawesi Selatan', 'Status Pengajuan': 'Menunggu Proses Validasi' },
+                { 'Timestamp': '30/09/2026 16:43:10', 'Nama Lengkap (Tanpa Gelar)': 'Nur Rahmi', 'Gelar Lengkap': 'SKM.M.Tr.Adm.Kes', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'Puskesmas sinoa', 'Provinsi Bekerja': 'Sulawesi selatan', 'Status Pengajuan': 'on proses' },
+                { 'Timestamp': '06/10/2026 10:51:09', 'Nama Lengkap (Tanpa Gelar)': 'ARDYANTI ARINI PUSPITA', 'Gelar Lengkap': 'SKM.', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'UPT PUSKESMAS CAMPAGALOE', 'Provinsi Bekerja': 'SULAWESI SELATAN', 'Status Pengajuan': 'on proses' },
+                { 'Timestamp': '06/10/2026 11:02:36', 'Nama Lengkap (Tanpa Gelar)': 'Yusri Kartika', 'Gelar Lengkap': 'S.KM, M.Epid.', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'UPT Puskesmas Campagaloe', 'Provinsi Bekerja': 'Sulawesi Selatan', 'Status Pengajuan': 'on proses' },
+                { 'Timestamp': '06/10/2026 11:48:48', 'Nama Lengkap (Tanpa Gelar)': 'ANDRIANASTI PREPUTRI', 'Gelar Lengkap': 'S.KM.,M.Kes', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'KABUPATEN BANTAENG', 'Provinsi Bekerja': 'SULAWESI SELATAN', 'Status Pengajuan': 'Menunggu Proses Validasi' },
+                { 'Timestamp': '06/10/2026 13:54:24', 'Nama Lengkap (Tanpa Gelar)': 'Masniati', 'Gelar Lengkap': 'SKM., M.Kes', 'Jenis Kelamin *': 'Perempuan', 'Lokasi Bekerja': 'Dinas Kesehatan Kab.Bantaeng', 'Provinsi Bekerja': 'Sulawesi Selatan', 'Status Pengajuan': 'Menunggu Proses Validasi' }
+            ];
+
+            fetch(csvUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text();
+                })
+                .then(csvText => {
+                    if (csvText.trim().startsWith('<!DOCTYPE html>') || csvText.includes('<html')) {
+                        rawKtaData = fallbackData;
+                    } else {
+                        rawKtaData = parseCSV(csvText);
+                        if (rawKtaData.length === 0) rawKtaData = fallbackData;
+                    }
+                    displayKtaTable(rawKtaData);
+                    updateKtaStats(rawKtaData);
+                })
+                .catch(err => {
+                    rawKtaData = fallbackData;
+                    displayKtaTable(rawKtaData);
+                    updateKtaStats(rawKtaData);
+                });
+        }
+
+        function parseCSV(text) {
+            let lines = text.split('\n');
+            let result = [];
+            if (lines.length === 0) return result;
+
+            let headers = parseCSVLine(lines[0]);
+
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                let currentLine = parseCSVLine(lines[i]);
+                let obj = {};
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = currentLine[j] !== undefined ? currentLine[j] : '';
+                }
+                result.push(obj);
+            }
+            return result;
+        }
+
+        function parseCSVLine(text) {
+            let re = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+            return text.split(re).map(val => val.trim().replace(/^"|"$/g, ''));
+        }
+
+        function displayKtaTable(data) {
+            const tbody = document.getElementById('ktaTableBody');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400">Belum ada data pengajuan KTA.</td></tr>`;
+                return;
+            }
+
+            data.forEach(row => {
+                let timestamp = row['Timestamp'] || '-';
+                let nama = row['Nama Lengkap (Tanpa Gelar)'] || '-';
+                let gelar = row['Gelar Lengkap'] || '';
+                let jk = row['Jenis Kelamin *'] || '-';
+                let lokasi = row['Lokasi Bekerja'] || '-';
+                let provinsi = row['Provinsi Bekerja'] || '-';
+                let status = row['Status Pengajuan'] || 'Menunggu Proses Validasi';
+
+                let badgeColor = 'bg-amber-100 text-amber-800 border border-amber-200';
+                let statusLower = status.toLowerCase();
+                if (statusLower.includes('disetujui') || statusLower.includes('selesai')) {
+                    badgeColor = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+                } else if (statusLower.includes('proses')) {
+                    badgeColor = 'bg-blue-100 text-blue-800 border border-blue-200';
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="py-3.5 px-4 text-xs font-medium text-slate-500">${timestamp}</td>
+                        <td class="py-3.5 px-4 font-bold text-slate-900">${nama}${gelar ? ', ' + gelar : ''}</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-medium">${jk}</td>
+                        <td class="py-3.5 px-4 text-slate-700">${lokasi}</td>
+                        <td class="py-3.5 px-4 text-slate-600">${provinsi}</td>
+                        <td class="py-3.5 px-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badgeColor}">${status}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateKtaStats(data) {
+            document.getElementById('statTotalKta').innerText = data.length;
+            let prosesCount = data.filter(d => (d['Status Pengajuan'] || '').toLowerCase().includes('proses') || (d['Status Pengajuan'] || '').toLowerCase().includes('menunggu')).length;
+            document.getElementById('statProsesKta').innerText = prosesCount;
+            
+            let instansiSet = new Set(data.map(d => d['Lokasi Bekerja']).filter(Boolean));
+            document.getElementById('statInstansiKta').innerText = instansiSet.size;
+        }
+
+        function filterKtaTable() {
+            let keyword = document.getElementById('ktaSearchInput').value.toLowerCase();
+            let statusFilter = document.getElementById('ktaStatusFilter').value.toLowerCase();
+
+            let filtered = rawKtaData.filter(row => {
+                let textMatch = Object.values(row).some(val => String(val).toLowerCase().includes(keyword));
+                let statusMatch = statusFilter === "" || String(row['Status Pengajuan'] || '').toLowerCase().includes(statusFilter);
+                return textMatch && statusMatch;
+            });
+
+            displayKtaTable(filtered);
+        }
+
+        // Admin Auth & Modals
+        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); document.getElementById('loginError').classList.add('hidden'); }
+
+        function processLogin() {
+            let u = document.getElementById('adminUser').value;
+            let p = document.getElementById('adminPass').value;
+            if (u === 'admin' && p === 'persakmibantaeng') {
+                isAdmin = true;
+                closeLoginModal();
+                updateAdminUI();
+                alert('Berhasil Login sebagai Admin!');
+            } else {
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function updateAdminUI() {
+            const area = document.getElementById('adminStatusArea');
+            area.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-xl border border-emerald-200"><i class="fa-solid fa-shield-halved mr-1"></i> Admin</span>
+                    <button onclick="logoutAdmin()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold px-3 py-1.5 rounded-xl transition">Logout</button>
+                </div>
+            `;
+            document.getElementById('adminTentangBtn').classList.remove('hidden');
+            document.getElementById('adminPengurusBtn').classList.remove('hidden');
+            document.getElementById('adminBeritaBtn').classList.remove('hidden');
+            document.getElementById('adminDokumentasiBtn').classList.remove('hidden');
+            document.getElementById('adminFooterSettings').classList.remove('hidden');
+            initContent();
+        }
+
+        function logoutAdmin() {
+            isAdmin = false;
+            location.reload();
+        }
+
+        // Settings / Logo & Cover Modal
+        function openSettingsModal() {
+            document.getElementById('inputLogoUrl').value = currentLogo;
+            document.getElementById('inputCoverUrl').value = currentCover;
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+        function closeSettingsModal() { document.getElementById('settingsModal').classList.add('hidden'); }
+        function saveSettings() {
+            currentLogo = document.getElementById('inputLogoUrl').value;
+            currentCover = document.getElementById('inputCoverUrl').value;
+            localStorage.setItem('persakmi_logo', currentLogo);
+            localStorage.setItem('persakmi_cover', currentCover);
+            closeSettingsModal();
+            initContent();
+            alert('Pengaturan tampilan berhasil diperbarui!');
+        }
+
+        // Edit Tentang Modal
+        function openEditTentangModal() {
+            document.getElementById('editVisi').value = tentangData.visi;
+            document.getElementById('editMisi').value = tentangData.misi;
+            document.getElementById('editRuang').value = tentangData.ruang;
+            document.getElementById('editTentangModal').classList.remove('hidden');
+        }
+        function closeEditTentangModal() { document.getElementById('editTentangModal').classList.add('hidden'); }
+        function saveTentang() {
+            tentangData.visi = document.getElementById('editVisi').value;
+            tentangData.misi = document.getElementById('editMisi').value;
+            tentangData.ruang = document.getElementById('editRuang').value;
+            localStorage.setItem('persakmi_tentang', JSON.stringify(tentangData));
+            closeEditTentangModal();
+            initContent();
+            alert('Profil organisasi berhasil diperbarui!');
+        }
+
+        // Pengurus Modal
+        function openAddPengurusModal() {
+            document.getElementById('pengurusModalTitle').innerText = 'Tambah Pengurus Inti';
+            document.getElementById('pengurusEditId').value = '';
+            document.getElementById('pengurusNama').value = '';
+            document.getElementById('pengurusJabatan').value = '';
+            document.getElementById('pengurusFoto').value = '';
+            document.getElementById('pengurusModal').classList.remove('hidden');
+        }
+        function openEditPengurusModal(id) {
+            let p = pengurusList.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('pengurusModalTitle').innerText = 'Edit Pengurus Inti';
+            document.getElementById('pengurusEditId').value = p.id;
+            document.getElementById('pengurusNama').value = p.nama || p.name;
+            document.getElementById('pengurusJabatan').value = p.jabatan;
+            document.getElementById('pengurusFoto').value = p.foto;
+            document.getElementById('pengurusModal').classList.remove('hidden');
+        }
+        function closeAddPengurusModal() { document.getElementById('pengurusModal').classList.add('hidden'); }
+        function savePengurus() {
+            let id = document.getElementById('pengurusEditId').value;
+            let nama = document.getElementById('pengurusNama').value;
+            let jabatan = document.getElementById('pengurusJabatan').value;
+            let foto = document.getElementById('pengurusFoto').value || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
+
+            if (!nama || !jabatan) {
+                alert('Nama dan jabatan wajib diisi!');
+                return;
+            }
+
+            if (id) {
+                let p = pengurusList.find(x => x.id == id);
+                if (p) {
+                    p.nama = nama;
+                    p.jabatan = jabatan;
+                    p.foto = foto;
+                }
+            } else {
+                pengurusList.push({ id: Date.now(), nama, jabatan, foto });
+            }
+
+            localStorage.setItem('persakmi_pengurus', JSON.stringify(pengurusList));
+            closeAddPengurusModal();
+            renderPengurus();
+        }
+        function deletePengurus(id) {
+            if (confirm('Yakin ingin menghapus pengurus ini?')) {
+                pengurusList = pengurusList.filter(x => x.id !== id);
+                localStorage.setItem('persakmi_pengurus', JSON.stringify(pengurusList));
+                renderPengurus();
+            }
+        }
+
+        // Berita & Kegiatan Modal
+        function openAddBeritaModal() {
+            document.getElementById('beritaModalTitle').innerText = 'Tambah Berita / Kegiatan';
+            document.getElementById('beritaEditId').value = '';
+            document.getElementById('beritaTitle').value = '';
+            document.getElementById('beritaImage').value = '';
+            document.getElementById('beritaLink').value = '';
+            document.getElementById('beritaContent').value = '';
+            document.getElementById('beritaModal').classList.remove('hidden');
+        }
+        function openEditBeritaModal(id) {
+            let b = beritaList.find(x => x.id === id);
+            if (!b) return;
+            document.getElementById('beritaModalTitle').innerText = 'Edit Berita / Kegiatan';
+            document.getElementById('beritaEditId').value = b.id;
+            document.getElementById('beritaTitle').value = b.title;
+            document.getElementById('beritaImage').value = b.image;
+            document.getElementById('beritaLink').value = b.link || '';
+            document.getElementById('beritaContent').value = b.content;
+            document.getElementById('beritaModal').classList.remove('hidden');
+        }
+        function closeAddBeritaModal() { document.getElementById('beritaModal').classList.add('hidden'); }
+        function saveBerita() {
+            let id = document.getElementById('beritaEditId').value;
+            let title = document.getElementById('beritaTitle').value;
+            let image = document.getElementById('beritaImage').value || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80';
+            let link = document.getElementById('beritaLink').value;
+            let content = document.getElementById('beritaContent').value;
+
+            if (!title || !content) {
+                alert('Judul dan isi berita/kegiatan wajib diisi!');
+                return;
+            }
+
+            if (id) {
+                let b = beritaList.find(x => x.id == id);
+                if (b) {
+                    b.title = title;
+                    b.image = image;
+                    b.link = link;
+                    b.content = content;
+                }
+            } else {
+                beritaList.unshift({ id: Date.now(), title, date: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'}), image, link, content });
+            }
+
+            localStorage.setItem('persakmi_berita', JSON.stringify(beritaList));
+            closeAddBeritaModal();
+            renderBerita();
+        }
+        function deleteBerita(id) {
+            if (confirm('Yakin ingin menghapus berita/kegiatan ini?')) {
+                beritaList = beritaList.filter(b => b.id !== id);
+                localStorage.setItem('persakmi_berita', JSON.stringify(beritaList));
+                renderBerita();
+            }
+        }
+
+        // Dokumentasi Modal
+        function openAddDokumentasiModal() { document.getElementById('dokumentasiModal').classList.remove('hidden'); }
+        function closeAddDokumentasiModal() { document.getElementById('dokumentasiModal').classList.add('hidden'); }
+        function saveDokumentasi() {
+            let title = document.getElementById('dokTitle').value;
+            let image = document.getElementById('dokImage').value;
+            let link = document.getElementById('dokLink').value;
+
+            if (!title || !image) {
+                alert('Judul dan URL foto wajib diisi!');
+                return;
+            }
+
+            dokumentasiList.unshift({ id: Date.now(), title, image, link });
+            localStorage.setItem('persakmi_dok', JSON.stringify(dokumentasiList));
+            closeAddDokumentasiModal();
+            renderDokumentasi();
+            document.getElementById('dokTitle').value = '';
+            document.getElementById('dokImage').value = '';
+            document.getElementById('dokLink').value = '';
+        }
+        function deleteDokumentasi(id) {
+            if (confirm('Yakin ingin menghapus foto dokumentasi ini?')) {
+                dokumentasiList = dokumentasiList.filter(d => d.id !== id);
+                localStorage.setItem('persakmi_dok', JSON.stringify(dokumentasiList));
+                renderDokumentasi();
+            }
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            initContent();
+        };
+    </script>
+</body>
+</html>
